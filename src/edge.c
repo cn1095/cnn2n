@@ -579,6 +579,20 @@ static int setOption (int optkey, char *optargument, n2n_tuntap_priv_config_t *e
 
         case 'l': /* supernode-list */ {
             if(optargument) {
+#ifdef _WIN32
+#include <Winsock2.h>
+#include <windns.h>
+                DNS_RECORDA* pDnsRecord = NULL;
+                DnsQuery_A(optargument, DNS_TYPE_SRV, DNS_QUERY_STANDARD, NULL, (PDNS_RECORD*)&pDnsRecord, NULL);
+                while (pDnsRecord != NULL) {
+                    if (pDnsRecord->wType == DNS_TYPE_SRV) {
+                        DNS_SRV_DATAA pSrvData = pDnsRecord->Data.SRV;
+                        sprintf(optargument, "%s:%d\0", pSrvData.pNameTarget, pSrvData.wPort);
+                        break;
+                    }
+                    pDnsRecord = pDnsRecord->pNext;
+                }
+#endif
                 if(edge_conf_add_supernode(conf, optargument) != 0) {
                     traceEvent(TRACE_WARNING, "failed to add supernode '%s'", optargument);
                 }
