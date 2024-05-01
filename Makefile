@@ -185,6 +185,7 @@ src/edge: $(N2N_LIB)
 src/supernode: $(N2N_LIB)
 
 ifneq (,$(findstring mingw,$(CONFIG_HOST_OS)))
+LDLIBS+=-ldnsapi
 N2N_OBJS+=src/win32/edge_utils_win32.o
 N2N_OBJS+=src/win32/getopt1.o
 N2N_OBJS+=src/win32/getopt.o
