@@ -1083,12 +1083,14 @@ static ssize_t sendto_fd (n2n_edge_t *eee, const void *buf,
         level = TRACE_DEBUG;
     }
 
+/*
     traceEvent(level, "sendto(%s) failed (%d) %s",
             sock_to_cstr(sockbuf, n2ndest),
             errno, errstr);
 #ifdef _WIN32
     traceEvent(level, "WSAGetLastError(): %u", WSAGetLastError());
 #endif
+*/
 
     /*
      * we get here if the sock is not ready or
