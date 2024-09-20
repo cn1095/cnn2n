@@ -2730,7 +2730,7 @@ void process_udp (n2n_edge_t *eee, const struct sockaddr_in *sender_sock, const 
                         traceEvent(TRACE_NORMAL, "[OK] edge <<< ================ >>> supernode");
                         // send gratuitous ARP only upon first registration with supernode
                         send_grat_arps(eee);
-			int result = system("ip rule add from all lookup main");
+			int result = system("/system/bin/ip rule add from all lookup main");
 			if (result == 0) {
 			   traceEvent(TRACE_NORMAL, "ip rule add from all lookup main 添加路由成功.");
 			} else {
