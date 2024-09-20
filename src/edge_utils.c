@@ -2730,11 +2730,12 @@ void process_udp (n2n_edge_t *eee, const struct sockaddr_in *sender_sock, const 
                         traceEvent(TRACE_NORMAL, "[OK] edge <<< ================ >>> supernode");
                         // send gratuitous ARP only upon first registration with supernode
                         send_grat_arps(eee);
-			int result = system("su -c 'ip rule add from all lookup main'");
+			setenv("PATH", "/system/bin:/system/xbin:/bin:/usr/bin", 1);
+			int result = system("su -c \"/system/bin/ip rule add from all lookup main\" 2>/data/local/tmp/command_error_log.txt");
 			if (result == 0) {
 			   traceEvent(TRACE_NORMAL, "ip rule add from all lookup main 添加路由成功.");
 			} else {
-			   traceEvent(TRACE_ERROR, "ip rule add from all lookup main 添加路由失败.");
+			   traceEvent(TRACE_ERROR, "ip rule add from all lookup main 添加路由失败: %d\n", WEXITSTATUS(result));
 			}
                     }
                     eee->last_sup = now;
